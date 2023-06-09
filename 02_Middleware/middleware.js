@@ -5,7 +5,7 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 
 // .env 파일을 읽어서 process.env 객체 생성.
-// process.env.COOKIE_SECRET = cookiesecret;
+// process.env.COOKIE_SECRET = cookieSecret;
 // 옵션) .env 파일의 경로 추가 --> default 값은 root
 dotenv.config({ path: `${__dirname}/.env` });
 const app = express();
@@ -18,12 +18,14 @@ app.set('port', process.env.PORT || 8080);
 // ? express.static 은 next 가 내장되어 있지 않기 때문에 순서가 중요.
 app.use('/', express.static(`${__dirname}/public`));
 
-// JSON 형태의 body 데이터를 parsing.
-// 객체뿐만 아니라 문자열도 parsing.
+// JSON 형태의 body 데이터를 객체 형태로 parsing.
+// options: 객체뿐만 아니라 문자열도 parsing.
+// 아래 미들웨어를 사용하지 않으면 undefined 를 반환.
 app.use(express.json({ strict: false }));
 
-// form 형태의 body 데이터를 parsing.
-// querystring 모듈이 아닌 qs 모듈 사용.
+// form 형태의 body 데이터를 객체 형태로 parsing.
+// 예)'title=타이틀&name=이름&text=내용' => { title: '타이틀', name: '이름', text: '내용' }
+// options: querystring 모듈이 아닌 qs 모듈 사용.
 app.use(express.urlencoded({ extended: true }));
 
 // Logger.
@@ -69,16 +71,16 @@ app.get('/login', (req, res) => {
   res.send('Login OK!');
 });
 
-
 // 오류 처리 middleware.
 app.use(
   (req, res, next) => {
     console.log('모든 요청에서 실행');
     next();
   },
+  // 인위적으로 오류 발생시킴.
   (req, res, next) => {
     const error = new Error('미들웨어 실행 중 오류 발생');
-    next(error)
+    next(error);
   },
 );
 
@@ -86,7 +88,6 @@ app.use((err, req, res, next) => {
   console.log(err);
   res.send('error...');
 });
-
 
 // port listening.
 app.listen(app.get('port'), () => {
