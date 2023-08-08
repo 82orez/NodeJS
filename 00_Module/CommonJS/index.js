@@ -5,7 +5,7 @@
 const { odd, even } = require('./var');
 const checkNumber = require('./func');
 
-const checkStringOddOrEven = num => {
+const checkStringOddOrEven = (num) => {
   if (num % 2) {
     return odd;
   }

@@ -7,12 +7,12 @@ const app = express();
 app.use(express.json({ strict: false }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
-app.use(express.static(`${__dirname}/public`));
 
 app.set('port', process.env.PORT || 8080);
 
 app.use(cookieParser('secret@1234')); // 문자열 형태의 요청(req)의 cookies 를 JS 에서 쓰기 위해 객체화.
 
+// sessionId 생성.
 app.use(
   session({
     secret: 'secret@1234', // 암호화를 위한 비밀 key 설정.
