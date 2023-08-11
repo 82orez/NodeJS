@@ -23,7 +23,8 @@ app.get('/', (req, res) => {
     // console.log(req.signedCookies);
   }
   res.cookie('name', 'TGLee', {
-    expires: new Date(Date.now() + 9000000),
+    // expires 옵션 설정에 따라 영속성 쿠키와 세션 쿠키로 구분됨.
+    // expires: new Date(Date.now() + 9000000),
     httpOnly: true,
     secure: true,
     // signed: true,

@@ -5,7 +5,7 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 
 // .env 파일을 읽어서 process.env 객체 생성.
-// process.env.COOKIE_SECRET = cookieSecret;
+// .env 파일 안에 COOKIE_SECRET = cookieSecret;
 // 옵션) .env 파일의 경로 추가 --> default 값은 root
 dotenv.config({ path: `${__dirname}/.env` });
 const app = express();
